@@ -1,0 +1,9 @@
+note over browser:
+onsubmit event gets triggered by the form submission,
+which adds the new note to the list, redraws the list,
+and updates the list on the server via an XHR object
+using the POST method
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server-->browser: [{ message : "note created"}]

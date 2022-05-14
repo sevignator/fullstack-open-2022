@@ -1,0 +1,40 @@
+note over browser:
+browser sends user input to the server
+using the POST method
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+server-->browser: HTML-code
+
+note over server:
+server responds with a 302 status code
+and redirects the user to /notes
+via the response header's Location
+end note
+
+browser->server: HTTP GET httpshttps://studies.cs.helsinki.fi/exampleapp/notes
+server-->browser: HTML-code
+
+note over browser:
+browser fetches the asset files
+embedded in the HTML document
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server-->browser: main.js
+
+note over browser:
+JS requests the JSON file through
+an XHR object
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [{ content: "HTML is easy", date: "2019-05-23" }, ...]
+
+note over browser:
+JS parses the JSON file,
+creates the necessary nodes and
+renders the list of notes on the page
+end note
