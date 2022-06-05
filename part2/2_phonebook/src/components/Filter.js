@@ -1,6 +1,6 @@
 import { InputField } from "./InputField";
 
-export function FilterSection({pattern, setPattern}) {
+export function Filter({ pattern, setPattern }) {
     return (
         <InputField
             name="filter"

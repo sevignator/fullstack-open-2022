@@ -1,4 +1,4 @@
-export function InputField({name, label, state, setState}) {
+export function InputField({ name, label, state, setState }) {
     function handleChange(event) {
         setState(event.target.value);
     }

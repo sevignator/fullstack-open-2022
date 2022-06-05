@@ -1,38 +1,61 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 
-import { FilterSection } from "./components/FilterSection";
-import { NewContactForm } from "./components/NewContactForm";
-import { ContactsList } from "./components/ContactsList";
+import personService from "./services/persons";
+import { Notification } from "./components/Notification";
+import { Filter } from "./components/Filter";
+import { Form } from "./components/Form";
+import { List } from "./components/List";
 
 export function App() {
-    const [persons, setPersons] = useState([]);
-    const [pattern, setPattern] = useState("");
+    const [ persons, setPersons ] = useState([]);
+    const [ pattern, setPattern ] = useState("");
+    const [ notification, setNotification ] = useState({
+        type: null,
+        message: "",
+    });
 
     useEffect(() => {
-        axios
-            .get("http://localhost:3001/persons"``)
-            .then(response => {
-                console.log(response.data);
-                setPersons(response.data);
+        personService
+            .getAll()
+            .then(data => {
+                setPersons(data);
+            })
+            .catch(err => {
+                handleNotification("error", "Could not fetch your phonebook data.");
+                console.error(err);
             });
     }, []);
 
+    function handleNotification(type, message) {
+        setNotification({ type, message });
+
+        setTimeout(() => {
+            setNotification({
+                type: null,
+                message: ""
+            });
+        }, 3000);
+    }
+
     return (
         <div>
+            {notification.message && <Notification notification={notification} />}
             <h2>Phonebook</h2>
-            <FilterSection
+            <Filter
                 pattern={pattern}
                 setPattern={setPattern}
             />
-            <NewContactForm
+            <Form
                 persons={persons}
                 setPersons={setPersons}
+                handleNotification={handleNotification}
             />
             <h2>Numbers</h2>
-            <ContactsList
+            <List
                 persons={persons}
+                setPersons={setPersons}
                 pattern={pattern}
+                handleNotification={handleNotification}
             />
         </div>
     );
